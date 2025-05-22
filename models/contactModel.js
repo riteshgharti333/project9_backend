@@ -12,6 +12,7 @@ const contactSchema = new mongoose.Schema(
       type: String,
       trim: true,
       maxlength: 150,
+      required: [true, "Business name is required"],
     },
     email: {
       type: String,
