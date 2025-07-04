@@ -5,6 +5,8 @@ import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import mongoSanitize from "express-mongo-sanitize";
 
+import ErrorHandler from "./utils/errorHandler.js";
+
 import { errorMiddleware } from "./middlewares/error.js";
 import authRouter from "./routes/authRoute.js";
 import companyCardRouter from "./routes/companyCardRoute.js";
@@ -13,7 +15,6 @@ import reviewRouter from "./routes/reviewRoute.js";
 import contactRouter from "./routes/contactRoute.js";
 import projectRouter from "./routes/projectRoute.js";
 import serviceRouter from "./routes/serviceRoute.js";
-
 
 // Initialize Express app
 export const app = express();
@@ -55,16 +56,15 @@ app.use(cookieParser());
 app.use(express.json());
 
 // Routes
-app.use("/api/auth", authRouter);
-app.use("/api/company-card", companyCardRouter);
-app.use("/api/partner-card", partnerCardRouter);
-app.use("/api/review", reviewRouter);
-app.use("/api/contact", contactRouter);
-app.use("/api/project", projectRouter);
-app.use("/api/service", serviceRouter);
+app.use("/adminbackend/api/auth", authRouter);
+app.use("/adminbackend/api/company-card", companyCardRouter);
+app.use("/adminbackend/api/partner-card", partnerCardRouter);
+app.use("/adminbackend/api/review", reviewRouter);
+app.use("/adminbackend/api/contact", contactRouter);
+app.use("/adminbackend/api/project", projectRouter);
+app.use("/adminbackend/api/service", serviceRouter);
 
-
-app.get("/", (req, res) => {
+app.get("/adminbackend", (req, res) => {
   res.send("Welcome to Backend");
 });
 

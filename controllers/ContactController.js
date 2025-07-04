@@ -1,25 +1,11 @@
 import Contact from "../models/contactModel.js";
 import { catchAsyncError } from "../middlewares/catchAsyncError.js";
 import ErrorHandler from "../utils/errorHandler.js";
-import nodemailer from "nodemailer"
+import nodemailer from "nodemailer";
 
-// Create a new contact
 // Create a new contact
 export const createContact = catchAsyncError(async (req, res, next) => {
-
-   const { 
-    name, 
-    businessName, 
-    email, 
-    phoneNumber, 
-    projectType, 
-    projectDescription, 
-    budget, 
-    heardAboutUs 
-  } = req.body;
-
-  
-    const contact = await Contact.create({
+  const {
     name,
     businessName,
     email,
@@ -27,7 +13,18 @@ export const createContact = catchAsyncError(async (req, res, next) => {
     projectType,
     projectDescription,
     budget,
-    heardAboutUs
+    heardAboutUs,
+  } = req.body;
+
+  const contact = await Contact.create({
+    name,
+    businessName,
+    email,
+    phoneNumber,
+    projectType,
+    projectDescription,
+    budget,
+    heardAboutUs,
   });
 
   // Setup Nodemailer transporter
@@ -35,7 +32,7 @@ export const createContact = catchAsyncError(async (req, res, next) => {
     service: "gmail",
     auth: {
       user: process.env.EMAIL,
-      pass: process.env.EMAIL_PASSWORD,
+      pass: process.env.PASSWORD,
     },
   });
 
@@ -49,7 +46,7 @@ export const createContact = catchAsyncError(async (req, res, next) => {
 Thank you for reaching out to Star Marketing. We've received your message and our team will get back to you shortly.
 
 Your message:
-"${projectDescription || 'No message provided'}"
+"${projectDescription || "No message provided"}"
 
 Warm regards,
 Star Marketing Team`,
@@ -58,7 +55,9 @@ Star Marketing Team`,
         <h2>Hi ${name},</h2>
         <p>Thank you for contacting <strong>Star Marketing</strong>.</p>
         <p>We've received your message and will get back to you shortly.</p>
-        <p style="margin-top: 1rem; font-style: italic; color: #555;">"${projectDescription || 'No message provided'}"</p>
+        <p style="margin-top: 1rem; font-style: italic; color: #555;">"${
+          projectDescription || "No message provided"
+        }"</p>
         <p style="margin-top: 2rem;">Warm regards,<br><strong>Star Marketing Team</strong></p>
       </div>
     `,

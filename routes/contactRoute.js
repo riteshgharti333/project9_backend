@@ -5,6 +5,8 @@ import {
   getSingleContact,
   deleteContact,
 } from "../controllers/ContactController.js";
+import { isAuthenticated } from "../middlewares/isAuthenticated.js";
+import { isAdmin } from "../middlewares/isAdmin.js";
 
 const router = express.Router();
 
@@ -14,6 +16,6 @@ router.get("/all-contacts", getAllContacts);
 
 router.get("/:id", getSingleContact);
 
-router.delete("/:id", deleteContact);
+router.delete("/:id", isAuthenticated, isAdmin, deleteContact);
 
 export default router;
